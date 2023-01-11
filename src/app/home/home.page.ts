@@ -63,7 +63,7 @@ export class HomePage {
     
     } else if (typeof val === 'string') {
       if (val === '.') { // check if the string is comma or an operator
-        this.res_to_show
+        //this.res_to_show
         this.addcomma();
       
       } else if (val === 'AC') { 
@@ -88,6 +88,14 @@ export class HomePage {
   }
 
   addoperator(op: string) {
+    if (op === '%') { 
+      this.calc_Percent(this.operator);
+      this.operator = op; // save as last operand for the next calculating
+      this.Is_New_Value = true;
+      this.comma_index = 0;
+      return;
+    }
+
     switch (this.operator) { // calculate the last operand by clicking on new operand
       case '+':
         var tmp:number = 0;
@@ -97,7 +105,7 @@ export class HomePage {
 
       case '-': 
         var tmp:number = 0;
-       tmp = (this.Temp_val_1 - this.res_to_show);
+        tmp = (this.Temp_val_1 - this.res_to_show);
         this.Temp_val_1 = tmp; // letf operand
         break;
 
@@ -114,10 +122,6 @@ export class HomePage {
         break;
     }
 
-    if (op === '%') { 
-      this.calc_Percent(this.operator);
-    }
-
     this.operator = op; // save as last operand for the next calculating
     this.Is_New_Value = true;
     this.comma_index = 0;
@@ -125,11 +129,34 @@ export class HomePage {
     if (op === '=') {
         this.res_to_show = this.Temp_val_1;
         this.Temp_val_1 = 0;
-        this.operator = '+';
+        this.operator = '+'; // set to default
         this.comma_index = 0;
     }   
   }
 
   calc_Percent(old_op: string) {
+    this.res_to_show = this.res_to_show / 100;
+
+    if (this.Temp_val_1 !== 0) {
+      let temp = (this.Temp_val_1 * this.res_to_show); 
+
+      switch (old_op) { // calculate the last operand by clicking on new percent
+        case '+':
+          this.Temp_val_1 = this.Temp_val_1 + temp;
+          break;
+  
+        case '-': 
+          this.Temp_val_1 = this.Temp_val_1 - temp;
+          break;
+  
+        case '*':
+          this.Temp_val_1 = this.Temp_val_1 * (temp / 100);
+          break;
+  
+        case '/':
+          this.Temp_val_1 = this.Temp_val_1 / (temp * 100);
+          break;
+      }
+    }
   }
 }
