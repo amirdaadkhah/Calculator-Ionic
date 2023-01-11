@@ -150,11 +150,11 @@ export class HomePage {
           break;
   
         case '*':
-          this.Temp_val_1 = this.Temp_val_1 * (temp / 100);
+          this.Temp_val_1 = temp;
           break;
   
         case '/':
-          this.Temp_val_1 = this.Temp_val_1 / (temp * 100);
+          this.Temp_val_1 = this.Temp_val_1 / this.res_to_show;
           break;
       }
     }
