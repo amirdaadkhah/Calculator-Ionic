@@ -1,20 +1,47 @@
-<ion-header [translucent]="true">
+<!-- <ion-header>
   <ion-toolbar>
     <ion-title>
-      Blank
+      Tauschenrechner
     </ion-title>
   </ion-toolbar>
-</ion-header>
+</ion-header> -->
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <ion-item>
+    <ion-label class="Result_To_Show">{{res_to_show}}</ion-label>
+  </ion-item>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+  <div *ngFor="let btn_group of Buttons_Groups">
+    <span *ngFor="let btn_value of btn_group">
+      <span *ngIf="get_value_type(btn_value); then Is_Num; else Is_Symbole"></span>
+
+        <ng-template #Is_Num>
+          <span *ngIf="get_double_width_value(btn_value); then Is_Double_Width; else Normal_Width"></span>
+
+          <ng-template #Is_Double_Width>
+            <ion-button color = "dark" (click)="onClick(btn_value)" class="Buttons_Customization_0">{{btn_value}}</ion-button>
+          </ng-template>
+  
+          <ng-template #Normal_Width>
+            <ion-button color = "dark" (click)="onClick(btn_value)" class="Buttons_Customization">{{btn_value}}</ion-button>
+          </ng-template>
+
+        </ng-template>
+
+        <ng-template #Is_Symbole>
+
+          <span *ngIf="get_double_width_value(btn_value); then Is_Double_Width; else Normal_Width"></span>
+
+          <ng-template #Is_Double_Width>
+            <ion-button color = "warning" (click)="onClick(btn_value)" class="Buttons_Customization_0">{{btn_value}}</ion-button>
+          </ng-template>
+  
+          <ng-template #Normal_Width>
+            <ion-button color = "warning" (click)="onClick(btn_value)" class="Buttons_Customization">{{btn_value}}</ion-button>
+          </ng-template>
+
+        </ng-template>
+
+    </span>
   </div>
 </ion-content>
